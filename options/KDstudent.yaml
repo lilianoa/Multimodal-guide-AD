@@ -1,0 +1,49 @@
+__include__: abstract.yaml
+exp:
+  dir: ./logs/visa/sca/kd_rn50
+  resume: # best_accuracy last, best_[], or empty (from scartch)
+imp:
+  dir: ./logs/visa/sca/teacher_saf_rn50
+  resume: last # best_accuracy
+model:
+  name: KDmodel # default
+  network:
+    name: KDstudent
+    studentnet:
+      img_enc:
+        name: CNN
+        type: resnet50
+        pre_trained: True
+      classif:
+        input_dim: 2048 #1024:clip_rn50 2048:renet50
+        m_dim: 256
+        dropout: .5
+    teachernet:
+      name: teacher
+      img_enc:
+        name: clip
+        type: ./modules/clip/src/RN50.pt  #  ViT-B-16.pt
+      text_enc:
+        name: clip
+        type: ./modules/clip/src/RN50.pt  # ViT-B-16.pt
+      fusion:
+        type: saf
+        input_dims: [1024, 1024]  # RN50:[1024, 1024]  ViT:[512, 512]
+        output_dim: 1024 # ViT:512
+        mm_dim: 512
+        num_atten_layer: 2
+        multi_head: 1
+        dropout: 0
+      classif:
+        input_dim: 1024 # ViT:512
+        m_dim: 256
+        dropout: .5
+  criterion:
+    import: models.criterions.factory
+    name: cross_entropy+kdloss  # cross_entropy+kd+mseloss   # cross_entropy+mseloss
+    temp: 5
+    # lamda: 0.1
+    alpha: 0.5
+    # beta: 0.8
+engine:
+  name: KDEngine

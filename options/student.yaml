@@ -1,0 +1,16 @@
+__include__: abstract.yaml
+exp:
+  dir: ./logs/visa/clip_rn50
+model:
+  network:
+    name: student
+    img_enc:
+      name: clip  # CNN
+      type: ./modules/clip/src/RN50.pt  # ViT-B-16.pt resnet50
+      pre_trained: True
+    classif:
+      input_dim: 1024 #CLIP_RN50:1024 ViT16:512 resnet50:2048
+      m_dim: 256
+      dropout: .5
+
+

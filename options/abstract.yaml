@@ -1,0 +1,47 @@
+exp:
+  dir: ./logs
+  resume: # best_accuracy last last, best_[], or empty (from scartch)
+imp:
+  dir:
+  resume:
+dataset:
+  import: datasets.factory
+  name: AD # Gas
+  cls_names: # default: None (All class)
+  dir: ./data/visa # ./data/gas_data
+  train_split:  # train
+  eval_split: test # val test
+  nb_threads: 4
+  batch_size: 24 # 32  100 64
+  nans: 2
+  max_length: 48
+model:
+  import: models.factory
+  name: default
+  network:
+    import: models.networks.factory
+  criterion:
+    import: models.criterions.factory
+    name: cross_entropy
+  metric:
+    import: models.metrics.factory
+    name: accuracies
+optimizer:
+  import: optimizers.factory
+  name: Adamax
+  lr: 0.0007
+  gradual_warmup_steps: [0.5, 2.0, 4] #torch.linspace
+  lr_decay_epochs: [10, 20, 2] #range
+  lr_decay_rate: .25
+engine:
+  import: engines.factory
+  name: default
+  debug: False
+  print_freq: 10
+  nb_epochs: 15
+  saving_criteria:
+  - accuracy:max
+misc:
+  logs_name:
+  cuda: True
+  seed: 1204

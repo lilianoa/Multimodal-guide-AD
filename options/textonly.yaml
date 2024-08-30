@@ -1,0 +1,13 @@
+__include__: abstract.yaml
+exp:
+  dir: ./logs/textonly
+model:
+  network:
+    name: textonly
+    text_enc:
+      name: clip
+      type: ./modules/clip/src/RN50.pt  # ViT-B-16.pt
+    classif:
+      input_dim: 1024 # ViT:512 RN50:1024
+      m_dim: 256
+      dropout: .5

@@ -1,0 +1,24 @@
+__include__: abstract.yaml
+exp:
+  dir: ./logs/visa/sca/teacher_saf_rn50
+model:
+  network:
+    name: teacher
+    img_enc:
+      name: clip  # CNN
+      type: ./modules/clip/src/RN50.pt  #  ViT-B-16.pt
+    text_enc:
+      name: clip
+      type: ./modules/clip/src/RN50.pt  # ViT-B-16.pt
+    fusion:
+      type: saf
+      input_dims: [1024, 1024]  # RN50:[1024, 1024]  ViT-B-16.pt:[512, 512]
+      output_dim: 1024 # 512
+      mm_dim: 512
+      num_atten_layer: 2
+      multi_head: 8
+      dropout: 0
+    classif:
+      input_dim: 1024 # 512
+      m_dim: 256
+      dropout: .5
