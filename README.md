@@ -25,7 +25,7 @@ Fine-grained data-subset-wise performance comparison (AUROC, AUPR) for anomaly c
 | mean        | (71.5, 66.4) | (81.2, 78.1)     | (81.4, 78.0)   | (85.4, 82.1)     | **(96.5, 89.2)**  |
 ------------------------------------------------------------
 ### Visualization of Grad-CAM on VisA
-![visa](docs/fig.png)
+![visa](docs/fig.PNG)
 
 ## Environment:
 
